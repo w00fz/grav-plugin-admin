@@ -24,6 +24,12 @@ $(function () {
         });
     };
 
+    var root = window || {};
+    root = root.GravJS = root.GravJS || {};
+
+    //Make it global because used by ./forms/form.js
+    root.currentValues = getState();
+
     // // selectize
     // $('select.fancy:not(.create)').selectize({
     //     createOnBlur: true,
@@ -116,6 +122,43 @@ $(function () {
                     .addClass('fa-chevron-' + (isVisible ? 'up' : 'down'));
             }
         });
+    });
+
+    // admin toggle
+    $("#admin-mode-toggle input[name=mode-switch]").on('change', function(e){
+        var value = $(this).val(),
+            uri   = $(this).data('leave-url');
+
+        if (root.currentValues == getState()) {
+            setTimeout(function(){
+                window.location.href = uri;
+            }, 200)
+
+            return true;
+        }
+
+        e.preventDefault();
+
+        var confirm = $.remodal.lookup[$('[data-remodal-id=changes]').data('remodal')],
+            buttons = $('[data-remodal-id=changes] a.button'),
+            action;
+
+        buttons.on('click', function(e){
+            e.preventDefault();
+            action = $(this).data('leave-action');
+
+            buttons.off('click');
+            confirm.close();
+
+            if (action == 'continue') {
+                $(window).off('beforeunload');
+                window.location.href = $("#admin-mode-toggle input[name=mode-switch]:checked").data('leave-url');
+            } else {
+                $('input[name=mode-switch][checked]').prop('checked', true);
+            }
+        });
+
+        confirm.open();
     });
 
     // Update plugins/themes

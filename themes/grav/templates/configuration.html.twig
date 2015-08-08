@@ -1,5 +1,7 @@
 {% extends 'partials/base.html.twig' %}
 
+{% set data = admin.data('system') %}
+
 {% block titlebar %}
     <div class="button-bar">
         <a class="button" href="{{ base_url }}"><i class="fa fa-reply"></i> Back</a>
@@ -13,10 +15,12 @@
         <li class="active"><span>System</span></li>
         <li><a href="{{ base_url_relative }}/settings/">Site</a></li>
     </ul>
+    {% if data.blueprints.fields %}
+        {% include 'partials/admin-toggle.html.twig' %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-    {% set data = admin.data('system') %}
+
     {% include 'partials/blueprints.html.twig' with { blueprints: data.blueprints, data: data } %}
 {% endblock %}
-

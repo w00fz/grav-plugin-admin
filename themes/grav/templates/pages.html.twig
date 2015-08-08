@@ -112,15 +112,7 @@
     {% elseif mode == 'edit' %}
         <div class="admin-form-wrapper" data-media-url="{{ base_url }}/media/{{ admin.route|trim('/') }}.json" data-media-local="{{ base_url_relative_frontend }}/{{ admin.route|trim('/') }}" data-media-types="{{ media_types }}">
             {% if context.blueprints.fields %}
-            <form id="admin-mode-toggle">
-                <div class="switch-toggle switch-grav">
-                    <input type="radio" value="normal" data-leave-url="{{ uri.route(true) }}/mode:normal" id="normal" name="mode-switch" class="highlight" {% if admin.session.expert == '0' %} checked="checked"{% endif %}>
-                    <label for="normal">Normal</label>
-                    <input type="radio" value="expert" data-leave-url="{{ uri.route(true) }}/mode:expert" id="expert" name="mode-switch" class="highlight" {% if admin.session.expert == '1' %} checked="checked"{% endif %}>
-                    <label for="expert">Expert</label>
-                    <a></a>
-                </div>
-            </form>
+            {% include 'partials/admin-toggle.html.twig' %}
             {% endif %}
 
             {% if context.blueprints.fields and admin.session.expert == '0' %}
@@ -189,20 +181,6 @@
         </form>
     </div>
 
-
-    <div class="remodal" data-remodal-id="changes">
-        <form>
-            <h1>Changes Detected</h1>
-            <p class="bigger">
-              You have unsaved changes.  Are you sure you want to leave without saving?
-            </p>
-            <br>
-            <div class="button-bar">
-            <a class="button secondary" data-leave-action="cancel" href="#"><i class="fa fa-fw fa-close"></i> Cancel</a>
-            <a class="button" data-leave-action="continue" href="#"><i class="fa fa-fw fa-check"></i>Continue</a>
-            </div>
-        </form>
-    </div>
 
     <div class="remodal" data-remodal-id="delete-media" data-remodal-options="hashTracking: false">
         <form>
