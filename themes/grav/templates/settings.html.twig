@@ -11,13 +11,15 @@
 {% endblock %}
 
 {% block content_top %}
-    <ul class="tab-bar">
-        <li><a href="{{ base_url_relative }}/configuration/">System</a></li>
-        <li class="active"><span>Site</span></li>
-    </ul>
-    {% if data.blueprints.fields %}
-        {% include 'partials/admin-toggle.html.twig' %}
-    {% endif %}
+    <div class="top-wrapper">
+        <ul class="tab-bar">
+            <li><a href="{{ base_url_relative }}/configuration/">System</a></li>
+            <li class="active"><span>Site</span></li>
+        </ul>
+        {% if data.blueprints.fields %}
+            {% include 'partials/admin-toggle.html.twig' %}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content %}

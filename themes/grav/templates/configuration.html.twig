@@ -2,6 +2,17 @@
 
 {% set data = admin.data('system') %}
 
+{% block stylesheets %}
+    {% do assets.addCss(theme_url~'/css/codemirror/codemirror.css') %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {% do assets.addJs(theme_url~'/js/codemirror-compressed.js') %}
+    {% do assets.addJs(theme_url~'/js/mdeditor.js') %}
+    {{ parent() }}
+{% endblock %}
+
 {% block titlebar %}
     <div class="button-bar">
         <a class="button" href="{{ base_url }}"><i class="fa fa-reply"></i> Back</a>
@@ -11,16 +22,21 @@
 {% endblock %}
 
 {% block content_top %}
-    <ul class="tab-bar">
-        <li class="active"><span>System</span></li>
-        <li><a href="{{ base_url_relative }}/settings/">Site</a></li>
-    </ul>
-    {% if data.blueprints.fields %}
-        {% include 'partials/admin-toggle.html.twig' %}
-    {% endif %}
+    <div class="top-wrapper">
+        <ul class="tab-bar">
+            <li class="active"><span>System</span></li>
+            <li><a href="{{ base_url_relative }}/settings/">Site</a></li>
+        </ul>
+        {% if data.blueprints.fields %}
+            {% include 'partials/admin-toggle.html.twig' %}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content %}
-
-    {% include 'partials/blueprints.html.twig' with { blueprints: data.blueprints, data: data } %}
+    {% if data.blueprints.fields and admin.session.expert == '0' %}
+        {% include 'partials/blueprints.html.twig' with { blueprints: data.blueprints, data: data } %}
+    {% else %}
+        {% include 'partials/blueprints-raw.html.twig' with { blueprints: admin.blueprints('config/system_raw'), data: data } %}
+    {% endif %}
 {% endblock %}
