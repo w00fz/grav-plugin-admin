@@ -4,7 +4,7 @@ This **admin plugin** for [Grav](http://github.com/getgrav/grav) is an HTML user
 
 ![](assets/admin-dashboard.png)
 
-# Features
+# Features [test]
 
 * User login with automatic password encryption
 * Forgot password functionality
